@@ -9,7 +9,17 @@
         "device_version": "0.0.1"
     },
     "ws2812": {
-        "pin": "GP16"
+        "pin": "GP16",
+        "driver": "vendor"
+    },
+    "rgblight": {
+        "led_count":1,
+        "max_brightness": 155,
+        "layers": {
+            "enabled": true
+        },
+        "split": true,
+        "split_count": [1, 1]
     },
     "features": {
         "bootmagic": true,

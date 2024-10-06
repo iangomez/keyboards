@@ -16,6 +16,59 @@
 #define _SYMBOLS  4
 #define _GAME     5
 
+const rgblight_segment_t PROGMEM layer_rgb_0[] = RGBLIGHT_LAYER_SEGMENTS(
+    {0, 1, HSV_RED}     // Layer 0: Red
+);
+const rgblight_segment_t PROGMEM layer_rgb_1[] = RGBLIGHT_LAYER_SEGMENTS(
+    {0, 1, HSV_GREEN}   // Layer 1: Green
+);
+const rgblight_segment_t PROGMEM layer_rgb_2[] = RGBLIGHT_LAYER_SEGMENTS(
+    {0, 1, HSV_BLUE}    // Layer 2: Blue
+);
+const rgblight_segment_t PROGMEM layer_rgb_3[] = RGBLIGHT_LAYER_SEGMENTS(
+    {0, 1, HSV_PURPLE}  // Layer 3: Purple
+);
+const rgblight_segment_t PROGMEM layer_rgb_4[] = RGBLIGHT_LAYER_SEGMENTS(
+    {0, 1, HSV_YELLOW}  // Layer 4: Yellow
+);
+const rgblight_segment_t PROGMEM layer_rgb_5[] = RGBLIGHT_LAYER_SEGMENTS(
+    {0, 1, HSV_ORANGE}  // Layer 5: Orange
+);
+
+// Now define the layers array pointing to each individual layer
+const rgblight_segment_t* const PROGMEM layer_rgb[] = {
+    layer_rgb_0,
+    layer_rgb_1,
+    layer_rgb_2,
+    layer_rgb_3,
+    layer_rgb_4,
+    layer_rgb_5
+};
+
+
+layer_state_t layer_state_set_user(layer_state_t state) {
+    uint8_t layer = get_highest_layer(state);
+
+    // Activate the RGB lighting for the current layer
+    rgblight_set_layer_state(0, layer == _MAIN);
+    rgblight_set_layer_state(1, layer == _ARROWS);
+    rgblight_set_layer_state(2, layer == _F_KEYS);
+    rgblight_set_layer_state(3, layer == _NUMPAD);
+    rgblight_set_layer_state(4, layer == _SYMBOLS);
+    rgblight_set_layer_state(5, layer == _GAME);
+
+    return state;
+}
+
+void keyboard_post_init_user(void) {
+  // Customise these values to desired behaviour
+  debug_enable=false;
+  debug_matrix=false;
+  rgblight_layers = layer_rgb;
+  
+}
+
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_MAIN] = LAYOUT_5x6(
     KC_EQUAL,       KC_1,           KC_2,           KC_3,           KC_4,           KC_5,                   KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_MINUS,       
@@ -80,11 +133,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   )
 };
 
-void keyboard_post_init_user(void) {
-  // Customise these values to desired behaviour
-  debug_enable=false;
-  debug_matrix=false;
-}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 // If console is enabled, it will print the matrix position and status of each key pressed
@@ -93,3 +141,4 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #endif 
   return true;
 }
+
