@@ -1,0 +1,10 @@
+qmk compile -kb handwired/dactyl_manuform/5x6 -km iangomez
+qmk compile -kb handwired/dactyl_manuform/5x6 -km via
+
+qmk config user.keyboard=handwired/dactyl_manuform/5x6
+qmk config user.keymap=iangomez
+qmk new-keymap
+
+
+qmk info -kb handwired/dactyl_manuform/5x6
+
