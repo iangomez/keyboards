@@ -1,0 +1,4 @@
+qmk compile -kb ergodox/7x5 -km iangomez
+
+qmk info -kb ergodox/7x5
+
