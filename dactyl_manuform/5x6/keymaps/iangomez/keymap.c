@@ -16,6 +16,11 @@
 #define _SYMBOLS  4
 #define _GAME     5
 
+enum custom_keycodes {
+  WIN_SS,
+};
+
+
 const rgblight_segment_t PROGMEM layer_rgb_0[] = RGBLIGHT_LAYER_SEGMENTS(
     {0, 1, HSV_RED}     // Layer 0: Red
 );
@@ -74,7 +79,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_EQUAL,       KC_1,           KC_2,           KC_3,           KC_4,           KC_5,                   KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_MINUS,       
     KC_TAB,         KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,                   KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           KC_BSLS,        
     ALT_F9,         LT1_A,          LT2_S,          LT3_D,          LT4_F,          KC_G,                   KC_H,           KC_J,           KC_K,           KC_L,           LT4_CLN,        KC_QUOTE,       
-    KC_LSFT,        KC_Z,           KC_X,           KC_C,           KC_V,           KC_B,                   KC_N,           KC_M,           KC_COMM,        KC_DOT,         KC_SLASH,       KC_RALT,   
+    KC_LSFT,        KC_Z,           KC_X,           KC_C,           KC_V,           KC_B,                   KC_N,           KC_M,           KC_COMM,        KC_DOT,         KC_SLASH,       WIN_SS,   
                                     _______,        _______,                                                                                _______,        _______, 
                                                                     KC_SPACE,       KC_LSFT,                KC_BSPC,        KC_ENTER,
                                                                     _______,        KC_LCTL,                KC_LGUI,        _______,
@@ -135,10 +140,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-// If console is enabled, it will print the matrix position and status of each key pressed
-#ifdef CONSOLE_ENABLE
-    uprintf("KL: kc: 0x%04X, row,col:[%2u, %2u], pressed: %u, time: %5u, int: %u, count: %u", keycode, record->event.key.row, record->event.key.col, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
-#endif 
-  return true;
+  switch (keycode) {
+    case WIN_SS:
+      if (record->event.pressed) {
+        SEND_STRING(SS_LGUI(SS_LSFT(SS_TAP(X_S))));
+      }
+      break;
+  }
+
+  // If console is enabled, it will print the matrix position and status of each key pressed
+  #ifdef CONSOLE_ENABLE
+      uprintf("KL: kc: 0x%04X, row,col:[%2u, %2u], pressed: %u, time: %5u, int: %u, count: %u", keycode, record->event.key.row, record->event.key.col, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
+  #endif 
+    return true;
 }
 
